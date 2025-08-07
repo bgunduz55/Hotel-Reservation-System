@@ -1,0 +1,64 @@
+spring:
+  application:
+    name: discovery-service
+    
+eureka:
+  server:
+    enable-self-preservation: true
+    renewal-threshold-update-interval-ms: 60000
+    peer-node-connect-timeout-ms: 1000
+    peer-node-read-timeout-ms: 5000
+    registry-sync-retries: 5
+    registry-sync-retry-wait-ms: 30000
+    eviction-interval-timer-in-ms: 60000
+    response-cache-update-interval-ms: 3000
+    response-cache-auto-update-time-ms: 180000
+    peer-node-total-connections: 1000
+    peer-node-total-connections-per-host: 500
+    peer-node-connection-idle-timeout-seconds: 30
+    
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://discovery-service:8761/eureka/}
+    register-with-eureka: false
+    fetch-registry: false
+    
+  instance:
+    hostname: ${EUREKA_INSTANCE_HOSTNAME:discovery-service}
+    prefer-ip-address: ${EUREKA_INSTANCE_PREFERIPADDRESS:true}
+    instance-id: ${spring.application.name}:${server.port}
+
+server:
+  port: 8761
+  
+
+
+logging:
+  level:
+    com.hotelreservation: DEBUG
+    org.springframework.cloud: INFO
+    org.springframework.web: INFO
+    com.netflix.eureka: INFO
+    com.netflix.discovery: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: /app/logs/discovery-service.log
+    max-size: 100MB
+    max-history: 30
+
+# Actuator configuration
+management:
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoint:
+    health:
+      show-components: always
+      show-details: when-authorized
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus 

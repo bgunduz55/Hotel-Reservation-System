@@ -1,0 +1,77 @@
+spring:
+  application:
+    name: notification-service
+  
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:kafka:29092}
+    consumer:
+      group-id: notification-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.type.mapping: reservation-created:com.hotelreservation.notification.event.ReservationCreatedEvent
+        
+  cloud:
+    discovery:
+      enabled: true
+      
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://discovery-service:8761/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+    
+  instance:
+    hostname: ${EUREKA_INSTANCE_HOSTNAME:notification-service}
+    prefer-ip-address: ${EUREKA_INSTANCE_PREFERIPADDRESS:true}
+    instance-id: ${spring.application.name}:${server.port}
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+
+server:
+  port: 8083
+  
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  health:
+    discovery:
+      enabled: true
+
+logging:
+  level:
+    com.hotelreservation: DEBUG
+    org.springframework.cloud: INFO
+    org.springframework.web: INFO
+    org.springframework.kafka: INFO
+    org.apache.kafka: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: /app/logs/notification-service.log
+    max-size: 100MB
+    max-history: 30
+
+# Kafka topic configuration
+kafka:
+  topic:
+    reservation-created: reservation-created-events
+
+# Actuator configuration
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoint:
+    health:
+      show-components: always
+      show-details: when-authorized 

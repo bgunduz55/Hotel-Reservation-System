@@ -1,0 +1,467 @@
+# Hotel Reservation System - Cursor Rules
+
+## Project Structure and Working Directory
+
+### Directory Organization
+- **Root Directory**: `Hotel-Reservation-System/` is the main project directory
+- **Multi-Module Structure**: Each service is a separate Maven module
+- **Working Directory**: Always work from the project root, not from subdirectories
+- **Module Structure**: Each service follows standard Maven structure
+
+### Correct Project Layout
+```
+Hotel-Reservation-System/
+├── pom.xml (Parent POM)
+├── docker-compose.yml
+├── .cursorrules
+├── project-plan.md
+├── analysis-doc.md
+├── discovery-service/
+│   ├── pom.xml
+│   └── src/main/java/com/hotelreservation/discovery/
+├── hotel-service/
+│   ├── pom.xml
+│   └── src/main/java/com/hotelreservation/hotel/
+├── reservation-service/
+│   ├── pom.xml
+│   └── src/main/java/com/hotelreservation/reservation/
+├── notification-service/
+│   ├── pom.xml
+│   └── src/main/java/com/hotelreservation/notification/
+└── api-gateway/
+    ├── pom.xml
+    └── src/main/java/com/hotelreservation/gateway/
+```
+
+### Working Directory Rules
+- **NEVER** create nested directories like `hotel-reservation-system/hotel-reservation-system/`
+- **ALWAYS** work from the project root: `Hotel-Reservation-System/`
+- **USE** relative paths from project root for all operations
+- **CREATE** service modules directly under project root
+- **AVOID** creating unnecessary subdirectories
+
+### File Creation Guidelines
+- **Parent POM**: Create in project root (`pom.xml`)
+- **Service POMs**: Create in respective service directories (`service-name/pom.xml`)
+- **Docker Compose**: Create in project root (`docker-compose.yml`)
+- **Configuration**: Each service has its own `application.yml` in `src/main/resources/`
+
+## Code Style and Standards
+
+### Java Code Style
+- Use meaningful variable and method names
+- Follow camelCase naming convention for variables and methods
+- Use PascalCase for class names
+- Keep methods small and focused (max 20-30 lines)
+- Use proper indentation (4 spaces)
+- Add comprehensive JavaDoc for public methods
+- Use @NonNull annotations where appropriate
+- Prefer composition over inheritance
+
+### Spring Boot Best Practices
+- Use constructor injection for dependencies
+- Implement proper exception handling with @ControllerAdvice
+- Use @Valid for request validation
+- Implement proper logging with SLF4J
+- Use @Transactional for database operations
+- Follow REST API conventions
+- Use proper HTTP status codes
+
+### Database and JPA
+- Use @Version for optimistic locking
+- Implement proper entity relationships
+- Use @Index for performance optimization
+- Implement soft delete where appropriate
+- Use @Audited for audit trails
+- Follow naming conventions for database objects
+
+### Microservices Architecture
+- Keep services loosely coupled
+- Use DTOs for data transfer
+- Implement circuit breaker patterns
+- Use proper service discovery
+- Implement health checks
+- Use distributed tracing
+
+### Security
+- Implement proper JWT token handling
+- Use BCrypt for password hashing
+- Implement role-based access control
+- Validate all inputs
+- Use HTTPS in production
+- Implement proper CORS configuration
+
+### Testing
+- Write unit tests for all business logic
+- Use @DataJpaTest for repository tests
+- Use @WebMvcTest for controller tests
+- Use @SpringBootTest for integration tests
+- Mock external dependencies
+- Achieve >80% code coverage
+
+### Error Handling
+- Use custom exception classes
+- Implement proper error responses
+- Log errors with appropriate levels
+- Use meaningful error messages
+- Implement retry mechanisms
+
+### Performance
+- Use connection pooling
+- Implement caching where appropriate
+- Optimize database queries
+- Use async operations where possible
+- Monitor application metrics
+
+### Documentation
+- Write comprehensive README files
+- Document API endpoints with OpenAPI
+- Include setup instructions
+- Document deployment procedures
+- Add inline comments for complex logic
+
+### Docker and Deployment
+- Use multi-stage Docker builds
+- Optimize Docker image size
+- Use environment variables
+- Implement proper health checks
+- Use Docker Compose for local development
+
+### Code Quality
+- Follow SOLID principles
+- Use design patterns appropriately
+- Keep cyclomatic complexity low
+- Use meaningful commit messages
+- Review code before committing
+
+### Specific Rules for This Project
+
+#### Hotel Service
+- Implement proper CRUD operations
+- Use proper validation for hotel and room data
+- Implement soft delete for hotels
+- Use proper pagination for list operations
+
+#### Reservation Service
+- Implement optimistic locking for concurrent reservations
+- Use proper date validation
+- Implement conflict detection
+- Use Kafka for event publishing
+
+#### Notification Service
+- Implement proper Kafka consumer
+- Use async processing for notifications
+- Implement retry mechanisms
+- Log all notification events
+
+#### API Gateway
+- Implement proper routing
+- Use circuit breaker patterns
+- Implement rate limiting
+- Use proper authentication
+
+### File Organization
+```
+src/
+├── main/
+│   ├── java/
+│   │   └── com/hotelreservation/
+│   │       ├── config/
+│   │       ├── controller/
+│   │       ├── dto/
+│   │       ├── entity/
+│   │       ├── exception/
+│   │       ├── repository/
+│   │       ├── service/
+│   │       └── util/
+│   └── resources/
+│       ├── application.yml
+│       └── db/migration/
+└── test/
+    ├── java/
+    │   └── com/hotelreservation/
+    │       ├── controller/
+    │       ├── service/
+    │       └── repository/
+    └── resources/
+        └── application-test.yml
+```
+
+### Naming Conventions
+- Controllers: *Controller
+- Services: *Service
+- Repositories: *Repository
+- DTOs: *Dto
+- Entities: *Entity
+- Exceptions: *Exception
+- Configurations: *Config
+
+### Package Structure
+- config: Configuration classes
+- controller: REST controllers
+- dto: Data Transfer Objects
+- entity: JPA entities
+- exception: Custom exceptions
+- repository: Data access layer
+- service: Business logic layer
+- util: Utility classes
+
+### Dependencies Management
+- Use specific versions for all dependencies
+- Keep dependencies up to date
+- Use BOM (Bill of Materials) for Spring Boot
+- Minimize transitive dependencies
+
+### Logging
+- Use structured logging
+- Include correlation IDs
+- Log at appropriate levels
+- Include context information
+- Use MDC for request tracking
+
+### Monitoring
+- Use Spring Boot Actuator
+- Implement custom metrics
+- Use health checks
+- Monitor application performance
+- Set up alerting
+
+### Security Headers
+- Implement proper security headers
+- Use HTTPS only
+- Implement proper CORS
+- Use secure session management
+- Implement rate limiting
+
+### Database Migrations
+- Use Flyway for database migrations
+- Version all migrations
+- Test migrations in CI/CD
+- Backup before migrations
+- Rollback capability
+
+### API Design
+- Use RESTful conventions
+- Implement proper HTTP methods
+- Use meaningful URLs
+- Implement proper status codes
+- Use consistent response format
+
+### Error Responses
+```json
+{
+  "timestamp": "2024-01-01T00:00:00Z",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "Validation failed",
+  "path": "/api/hotels",
+  "details": [
+    {
+      "field": "name",
+      "message": "Hotel name is required"
+    }
+  ]
+}
+```
+
+### Success Responses
+```json
+{
+  "timestamp": "2024-01-01T00:00:00Z",
+  "status": 200,
+  "data": {
+    "id": 1,
+    "name": "Hotel Name",
+    "address": "Hotel Address"
+  }
+}
+```
+
+### Environment Configuration
+- Use environment-specific configuration
+- Use encrypted properties for sensitive data
+- Use proper configuration profiles
+- Externalize configuration
+
+### Testing Strategy
+- Unit tests for business logic
+- Integration tests for repositories
+- Controller tests for API endpoints
+- End-to-end tests for complete flows
+- Performance tests for critical paths
+
+### Code Review Checklist
+- [ ] Code follows style guidelines
+- [ ] Proper exception handling
+- [ ] Comprehensive logging
+- [ ] Proper validation
+- [ ] Security considerations
+- [ ] Performance implications
+- [ ] Test coverage
+- [ ] Documentation updated
+
+### Git Workflow
+- Use feature branches
+- Write meaningful commit messages
+- Squash commits before merging
+- Use conventional commit format
+- Review code before merging
+
+### Conventional Commit Format
+```
+type(scope): description
+
+[optional body]
+
+[optional footer]
+```
+
+Types: feat, fix, docs, style, refactor, test, chore
+
+### Performance Guidelines
+- Use connection pooling
+- Implement caching strategies
+- Optimize database queries
+- Use async operations
+- Monitor memory usage
+- Profile application performance
+
+### Security Guidelines
+- Validate all inputs
+- Use parameterized queries
+- Implement proper authentication
+- Use HTTPS in production
+- Regular security updates
+- Security scanning in CI/CD
+
+### Monitoring and Observability
+- Use distributed tracing
+- Implement proper logging
+- Monitor application metrics
+- Set up alerting
+- Use APM tools
+- Monitor database performance
+
+### Deployment Guidelines
+- Use blue-green deployment
+- Implement rollback strategy
+- Monitor deployment health
+- Use proper environment variables
+- Implement health checks
+- Use container orchestration
+
+### Documentation Standards
+- Keep documentation up to date
+- Include examples
+- Document API changes
+- Include troubleshooting guides
+- Use diagrams where helpful
+
+### Code Quality Metrics
+- Maintain >80% code coverage
+- Keep cyclomatic complexity <10
+- Use static code analysis
+- Regular dependency updates
+- Security vulnerability scanning
+
+### Microservices Communication
+- Use REST for synchronous communication
+- Use Kafka for asynchronous events
+- Implement circuit breakers
+- Use service discovery
+- Implement proper error handling
+
+### Data Consistency
+- Use eventual consistency where appropriate
+- Implement saga patterns for distributed transactions
+- Use event sourcing for audit trails
+- Implement proper rollback mechanisms
+
+### Scalability Considerations
+- Design for horizontal scaling
+- Use caching strategies
+- Implement proper partitioning
+- Use load balancing
+- Monitor resource usage
+
+### Maintenance Guidelines
+- Regular dependency updates
+- Security patches
+- Performance monitoring
+- Code refactoring
+- Technical debt management
+- Documentation updates
+
+### Disaster Recovery
+- Implement backup strategies
+- Test recovery procedures
+- Monitor system health
+- Implement failover mechanisms
+- Document recovery procedures
+
+### Compliance and Standards
+- Follow industry best practices
+- Implement proper audit trails
+- Use secure coding practices
+- Regular security assessments
+- Compliance monitoring
+
+### Innovation and Improvement
+- Stay updated with latest technologies
+- Experiment with new patterns
+- Share knowledge with team
+- Continuous learning
+- Process improvement
+
+## Interview Assessment Criteria
+
+### Technical Competency Indicators
+- **Microservices Architecture**: Proper service separation and communication
+- **Event-Driven Architecture**: Kafka producer/consumer implementation
+- **Transaction Management**: Optimistic/Pessimistic locking
+- **Security**: JWT authentication and authorization
+- **Testing**: Unit, integration and end-to-end tests
+- **Docker**: Containerization and orchestration
+- **API Design**: RESTful conventions and documentation
+
+### Problem Solving Skills
+- **Concurrent Access**: Reservation conflict resolution
+- **Data Consistency**: Distributed transaction handling
+- **Performance**: Response time optimization
+- **Scalability**: Horizontal scaling considerations
+
+### Code Quality Standards
+- **SOLID Principles**: Proper application
+- **Design Patterns**: Appropriate pattern usage
+- **Exception Handling**: Comprehensive error management
+- **Logging**: Structured logging implementation
+- **Validation**: Input validation and sanitization
+
+### DevOps and Deployment
+- **CI/CD**: Pipeline setup (GitHub Actions/GitLab CI)
+- **Monitoring**: Health checks and metrics
+- **Documentation**: API docs and README
+- **Troubleshooting**: Debug and problem solving
+
+### Interview Evaluation Matrix
+
+| Criteria | Weight | Description |
+|----------|--------|-------------|
+| Microservices Architecture | 25% | Service separation, communication, data consistency |
+| Event-Driven Architecture | 20% | Kafka implementation, event handling |
+| Security & Authentication | 15% | JWT, authorization, input validation |
+| Testing & Quality | 15% | Test coverage, code quality, best practices |
+| DevOps & Deployment | 15% | Docker, CI/CD, monitoring |
+| Problem Solving | 10% | Concurrent access, performance, scalability |
+
+### Success Criteria for Technical Case
+- [ ] All CRUD operations working
+- [ ] Reservation conflict prevention
+- [ ] Kafka events working correctly
+- [ ] JWT authentication working
+- [ ] Docker containerization complete
+- [ ] Response time < 500ms
+- [ ] Code coverage > 80%
+- [ ] Postman collection ready
+
+Remember: Quality over speed, maintainability over cleverness, and always consider the long-term impact of your decisions. 
